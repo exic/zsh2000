@@ -84,10 +84,10 @@ prompt_dir() {
 prompt_status() {
   local symbols
   symbols=()
-  [[ $RETVAL -ne 0 ]] && symbols+="%{%F{yellow}%}✖"
+  [[ $RETVAL -ne 0 ]] && symbols+="%{%F{yellow}%}✖($RETVAL)"
   [[ $UID -eq 0 ]] && symbols+="%{%F{yellow}%}⚡"
   njobs=$(jobs -l | wc -l)
-  [[ $njobs -gt 0 ]] && symbols+="%{%F{cyan}%}⚙$njobs"
+  [[ $njobs -gt 0 ]] && symbols+="%{%F{cyan}%}⚙($njobs)"
 
   [[ -n "$symbols" ]] && prompt_segment black default "$symbols"
 }
