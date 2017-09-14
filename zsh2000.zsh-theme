@@ -86,21 +86,14 @@ prompt_status() {
   symbols=()
   [[ $RETVAL -ne 0 ]] && symbols+="%{%F{yellow}%}✖"
   [[ $UID -eq 0 ]] && symbols+="%{%F{yellow}%}⚡"
-  [[ $(jobs -l | wc -l) -gt 0 ]] && symbols+="%{%F{cyan}%}⚙"
+  njobs=$(jobs -l | wc -l)
+  [[ $njobs -gt 0 ]] && symbols+="%{%F{cyan}%}⚙$njobs"
 
   [[ -n "$symbols" ]] && prompt_segment black default "$symbols"
 }
 
 prompt_time() {
   prompt_segment_right white black '%D{%H:%M:%S} '
-}
-
-prompt_rvm() {
-  local rvm_prompt
-  rvm_prompt=`rvm-prompt`
-  if [ "$rvm_prompt" != "" ]; then
-    prompt_segment_right "240" white "$rvm_prompt "
-  fi
 }
 
 build_prompt() {
@@ -171,9 +164,6 @@ function git_time_since_commit() {
 }
 
 build_rprompt() {
-  if [ "$ZSH_2000_DISABLE_RVM" != 'true' ];then
-    prompt_rvm
-  fi
   prompt_time
 }
 
